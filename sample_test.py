@@ -28,3 +28,12 @@ def binary_search(arr:List, x:int):
             high = mid - 1 
     
     return -1
+
+if __name__ == "__main__":
+    arr = [1,2,4,10,5,8]
+    
+    # call function 
+    if binary_search(arr, 4) == 2:
+        print("Passed Test")
+    else:
+        print("Failed Test")
