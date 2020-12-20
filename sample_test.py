@@ -1,4 +1,4 @@
-# linear search function
+
 from typing import List
 from math import pi
 from collections.abc import Iterable
@@ -99,27 +99,85 @@ def factors_gen_(n):
 
 
 def fibonacci():
-    a = 0
-    b = 1
+    a, b = 0, 1
     while True:     # Infinate loop
         yield a  # report value a during the pass
-        future = a + b
-        a = b  # report next value
-        b = future  # and this
+        a, b = b, a+b  # report next values
 
 
-if __name__ == "__main__":
-    arr = [1, 2, 4, 10, 5, 8]
-    # call function
-    if binary_search(arr, 4) == 2:
-        print("Passed Test")
-    else:
-        print("Failed Test")
+def is_multiple(n, m):
+    """
+    Write a short Python function,ismultiple(n, m),
+    that takes two integervalues and returns True if
+    n is a multiple of m,that is, n=mi for some integer i,
+    and False otherwise.
+    """
+    if n % m == 0:
+        return True
+    return False
 
-"""
-Other Notes:
-list comprehension => [k for k in range(1, n+1)]
-set comprehension => {k*k for k in range(1, n+1)}
-generator comprehension => (k*k for k in range(1, n+1))
-dictionary comprehension => {k: k*k for k in range(1, n+1)}
-"""
+
+def is_even(k):
+    """
+    Write a short Python function, is even(k), that takes an integer value and
+    returns True if k is even, and False otherwise. However, your function
+    cannot use the multiplication, modulo, or division operators.
+    """
+    if not isinstance(k, (int, float)):
+        raise TypeError('elements must be numeric')
+
+    k_str = str(k)
+    len_k = len(k_str)
+    number = [i.isdigit() for i in k_str]
+    if number:
+        if int(k_str[len_k-1]) in range(0, 9, 2):
+            return True
+        else:
+            return False
+
+
+def minmax(data):
+    """
+    Write a short Python function, minmax(data), that takes a sequence of
+    one or more numbers, and returns the smallest and largest numbers, in the
+    form of a tuple of length two. Do not use the built-in functions min or
+    max in implementing your solution.
+    """
+    def find_min_max(data):
+        min_, max_ = data[0], data[1]
+        for i in data:
+            if (max_ < i):
+                max_ = i
+        for i in data:
+            if (min_ > i):
+                min_ = i
+        return (min_, max_)
+
+    if isinstance(data, List):
+        return find_min_max(data)
+    if isinstance(data, tuple):
+        return find_min_max(data)
+    if isinstance(data, set):
+        temp_data = list(data)
+        return find_min_max(temp_data)
+
+
+def sum_squares(n):
+    sum_ = []
+    if n > 0:
+        for i in range(n):
+            sum_.append(i*i)
+    return sum(sum_)
+
+
+def sum_squares_(n):
+    sum_ = sum([i*i for i in range(n) if i > 0])
+    return sum_
+
+# if __name__ == "__main__":
+#    arr = [1, 2, 4, 10, 5, 8]
+#    # call function
+#    if binary_search(arr, 4) == 2:
+#        print("Passed Test")
+#    else:
+#        print("Failed Test")
