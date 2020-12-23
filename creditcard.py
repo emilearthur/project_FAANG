@@ -1,7 +1,7 @@
 class CreditCard:
     """  A consumer credit card."""
 
-    def __init__(self, customer, bank, acnt, limit):
+    def __init__(self, customer, bank, acnt, limit, balance=None):
         """ Create a new credit card instance.
         The initial balance is zero.
 
@@ -14,7 +14,11 @@ class CreditCard:
         self._bank = bank
         self._account = acnt
         self._limit = limit
-        self._balance = 0
+
+        if balance:
+            self._balance = balance
+        else:
+            self._balance = 0
 
     def get_customer(self):
         """Returns name of the customer."""
@@ -51,12 +55,17 @@ class CreditCard:
 
     def make_payment(self, amount):
         """Process customer payment that reduces balance"""
+        if not isinstance(amount, (int, float)):
+            raise TypeError('amount should be numeric')
+        if amount < 0:
+            raise ValueError("Payment cannot be negative")
         self._balance -= amount
 
 
 # class extension (Inheritance)
 class PredatoryCreditCard(CreditCard):
     """An extension to CreditCard that compounds interest and fees"""
+    OVERLIMIT_FEE = 5       # this is a class-level member
 
     def __init__(self, customer, bank, acnt, limit, apr):
         """ Create anew predatory credit card instance.
@@ -75,9 +84,11 @@ class PredatoryCreditCard(CreditCard):
         Return True if charge was processed.
         Return False and asses $5 if charge is denied.
         """
+        if not isinstance(price, (int, float)):
+            raise TypeError('price should be numberic')
         success = super().charge(price)  # call inherited method
         if not success:
-            self._balance += 5  # asses penalty
+            self._balance += PredatoryCreditCard.OVERLIMIT_FEE  # asses penalty
         return success          # caller expects return value
 
     def process_month(self):
@@ -112,6 +123,6 @@ if __name__ == "__main__":
         print(f"Balance = {wallet[c].get_balance()}")
         print()
         while wallet[c].get_balance() > 100:
-            wallet[c].make_payment(100)
+            wallet[c].make_payment(100.0)
             print(f"New balance = {wallet[c].get_balance()}")
         print()
