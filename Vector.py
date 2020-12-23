@@ -1,5 +1,6 @@
 from typing import List
 
+
 class Vector:
     """Represent a vector in a multidimensional space."""
 
@@ -7,8 +8,11 @@ class Vector:
         """Create d-dimensional vector of zeros."""
         if isinstance(d, int):
             self._coords = [0] * d
+
         if isinstance(d, List):
-            self._coords = [0] * d
+            self._coords = [0] * len(d)
+            for i in range(len(d)):
+                self._coords[i] = d[i]
 
     def __len__(self):
         """Return the dimension of the vector."""
