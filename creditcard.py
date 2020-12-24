@@ -107,13 +107,13 @@ if __name__ == "__main__":
                              "539 885 223", 2500))
     wallet.append(CreditCard("Naa Mensah", "Accra current",
                              "333 125 233", 3500))
-    wallet.append(CreditCard("Naa Mensah", "Accra saving",
+    wallet.append(CreditCard("Naa Mensah", "Accra Investment",
                              "333 125 233", 5000))
 
-    for val in range(1, 17):
-        wallet[0].charge(val)
-        wallet[1].charge(2*val)
-        wallet[2].charge(3*val)
+    for val in range(1, 30):
+        print(wallet[0].charge(10*val), "Accra Savings")
+        print(wallet[1].charge(10*val), "Accta Current")
+        print(wallet[2].charge(10*val), "Accra Investment")
 
     for c in range(3):
         print(f"Customer = {wallet[c].get_customer()}")
