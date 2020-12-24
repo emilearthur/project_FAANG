@@ -46,6 +46,7 @@ class ArithmeticProgression(Progression):
     def _advance(self):     # override inherited version
         """Update current value by adding the fixed increment."""
         self._current += self._increment
+        return self._current
 
 
 class GeometricProgression(Progression):
@@ -73,10 +74,15 @@ class FibonacciProgression(Progression):
         """
         super().__init__(first)
         self._prev = second - first
+        self._series = []
 
     def _advance(self):
         """Update current value by taking sum of previous two."""
         self._prev, self._current = self._current, self._prev + self._current
+        self._series.append(self._current)
+
+    def __getitem__(self):
+        return ([0] + self._series)
 
 
 # Testing the class
@@ -103,3 +109,28 @@ if __name__ == "__main__":
 
     print('Fibonacci Progression with start values 4 and 6:')
     FibonacciProgression(4, 6).print_progression(10)
+
+    print("Find 8th value in FP")
+    fib_series = FibonacciProgression(2, 2)
+    fib_series._advance()
+    fib_series._advance()
+    fib_series._advance()
+    fib_series._advance()
+    fib_series._advance()
+    fib_series._advance()
+    fib_series._advance()
+    fib_series._advance()
+    Fibseries = fib_series.__getitem__()
+    print(Fibseries)
+    print(Fibseries[7])
+    print()
+
+    print("Before integer 2**63")
+    ap = ArithmeticProgression(128, 0)
+    c = 0
+    obj = ap._current
+    while obj <= 2**63:
+        c += 1
+        obj = ap._advance()
+
+    print(c)

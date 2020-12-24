@@ -28,6 +28,34 @@ class Sequence(metaclass=ABCMeta):
                 return True
             return False
 
+    def __eq__(self, seq):
+        """Return True if val and self are the same; False otherwise."""
+        if len(self) != len(seq):
+            raise ValueError("The dimension of sequence must be the same")
+        elements_comp = []
+        for j in range(len(self)):
+            if self[j] == seq[j]:
+                elements_comp.append(self[j] == seq[j])
+        x = len(set(elements_comp))
+        if (x == 1 and x[0] is True):
+            return True
+        else:
+            return False
+
+    def __lt__(self, seq):
+        """Lexigograhic comparism"""
+        if len(self) != len(seq):
+            raise ValueError("The dimension of sequence must be the same")
+        elements_comp = []
+        for j in range(len(self)):
+            if self[j] == seq[j]:
+                elements_comp.append(self[j] < seq[j])
+        x = len(set(elements_comp))
+        if (x == 1 and x[0] is True):
+            print('Seq1<seq2')
+        elif (x == 1 and x[0] is False):
+            print('Seq1>seq2')
+
     def index(self, val):
         """Return leftmost index at which val is found (or else raise ValueError).
         """
