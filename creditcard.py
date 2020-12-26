@@ -1,16 +1,24 @@
 class CreditCard:
     """  A consumer credit card."""
 
-    def __init__(self, customer, bank, acnt, limit):
+    def __init__(self, customer, bank, acnt, limit, balance=None):
         """ Create a new credit card instance.
-        The initial balance is zerio.
+        The initial balance is zero.
 
-        customer the name """
+        customer    the customer the name (eg. 'Emile Mensah')
+        bank        the name of the bank (eg. 'Accra Bank')
+        acnt        the account identifier (eg. '532 552 353')
+        limit       the credit limit (measured in usd)
+        """
         self._customer = customer
         self._bank = bank
         self._account = acnt
         self._limit = limit
-        self._balance = 0
+
+        if balance:
+            self._balance = balance
+        else:
+            self._balance = 0
 
     def get_customer(self):
         """Returns name of the customer."""
@@ -47,7 +55,48 @@ class CreditCard:
 
     def make_payment(self, amount):
         """Process customer payment that reduces balance"""
+        if not isinstance(amount, (int, float)):
+            raise TypeError('amount should be numeric')
+        if amount < 0:
+            raise ValueError("Payment cannot be negative")
         self._balance -= amount
+
+
+# class extension (Inheritance)
+class PredatoryCreditCard(CreditCard):
+    """An extension to CreditCard that compounds interest and fees"""
+    OVERLIMIT_FEE = 5       # this is a class-level member
+
+    def __init__(self, customer, bank, acnt, limit, apr):
+        """ Create anew predatory credit card instance.
+        The initial balance is zero.
+
+        customer    the customer the name (eg. 'Emile Mensah')
+        bank        the name of the bank (eg. 'Accra Bank')
+        acnt        the account identifier (eg. '532 552 353')
+        limit       the credit limit (measured in usd)
+        """
+        super().__init__(customer, bank, acnt, limit)  # call super constructor
+        self._apr = apr
+
+    def charge(self, price):
+        """ Charge given price to the card, assuming sufficient credit limit.
+        Return True if charge was processed.
+        Return False and asses $5 if charge is denied.
+        """
+        if not isinstance(price, (int, float)):
+            raise TypeError('price should be numberic')
+        success = super().charge(price)  # call inherited method
+        if not success:
+            self._balance += PredatoryCreditCard.OVERLIMIT_FEE  # asses penalty
+        return success          # caller expects return value
+
+    def process_month(self):
+        """Asses monthly interest on outstanding balance."""
+        if self._balance > 0:
+            # if postive balance, convert APR to monthly multiplicative factor
+            monthly_factor = pow(1+self._apr, 1/12)
+            self._balance *= monthly_factor
 
 # Testing the class
 
@@ -58,13 +107,13 @@ if __name__ == "__main__":
                              "539 885 223", 2500))
     wallet.append(CreditCard("Naa Mensah", "Accra current",
                              "333 125 233", 3500))
-    wallet.append(CreditCard("Naa Mensah", "Accra saving",
+    wallet.append(CreditCard("Naa Mensah", "Accra Investment",
                              "333 125 233", 5000))
 
-    for val in range(1, 17):
-        wallet[0].charge(val)
-        wallet[1].charge(2*val)
-        wallet[2].charge(3*val)
+    for val in range(1, 30):
+        print(wallet[0].charge(10*val), "Accra Savings")
+        print(wallet[1].charge(10*val), "Accta Current")
+        print(wallet[2].charge(10*val), "Accra Investment")
 
     for c in range(3):
         print(f"Customer = {wallet[c].get_customer()}")
@@ -74,6 +123,6 @@ if __name__ == "__main__":
         print(f"Balance = {wallet[c].get_balance()}")
         print()
         while wallet[c].get_balance() > 100:
-            wallet[c].make_payment(100)
+            wallet[c].make_payment(100.0)
             print(f"New balance = {wallet[c].get_balance()}")
         print()

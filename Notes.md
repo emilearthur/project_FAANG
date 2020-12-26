@@ -42,3 +42,54 @@ check [Vector.py](/Vector.py)
 ### Iterators
 Iteration is an important concept in the design of data structure.
 Iterator support a special method named __next__ that returns the next element of the collections, if any or raises a StopIteration exception to indicate that there are no further elements.
+check [SequenceIterator.py](/SequenceIterator.py) and [Range.py](/Range.py)
+
+### Inheritance
+A hierarchical design is useful in software development, as common functionality can be grouped at the most general level, thereby promoting reuse of code, while differentiated behaviors can be viewed as extensions of the general case, In object-oriented programming, the mechanism for a modular and hierarchical organization is a technique known as in heritance. This allows a new class to be defined upon an existing class as the starting point. Existing class = base class, parent class or super class and newly defined class is known as sub or child class.
+Two ways to differentiate a subclass to superclass are:
+* Overriding an existing method by providing a new implementation.
+* Extend an exiting method by providing brand new methods.
+
+
+### Abstract Base Classes
+When defining a group of classes as part of an Inheritance hierarchy, one technique for avoiding repetition of code is to design a base class with common functionality that can be inherited by other classes.
+Abstract base class is a class whose sole purpose is to serve as a base class through Inheritance. Abstract class cannot directly instantiated while a concrete class is the one that can be instantiated.
+The template method pattern is when an abstract base class provides concrete behaviors that rely upon calls to other abstract behaviors. In that way, as soon as a subclass provides definitions for the missing abstract behaviors, the inherited concrete behaviors are well defined.
+
+In [Sequence.py](/Sequence.py) we implemented the following techniques:
+* We declare the ABCMeta class of the abc module as metaclass of our Sequence class. A metaclas is different from a superclass as it provides a template for the class definition itself. The ABCMeta declaration assures that the constructor for the class raises an error.
+* The use of `@abstractmethod` decorator before the `__len__` and `__getitem__` methods are declared. That decalares two particular methods to be abstract, i.e. we do not provide an implementation within our Sequence base class but we expect any concrete subclasses to suppport those two methods.
+Note: Python enforces this expectation by disallowing instantiation for any subclass that does not override the abstract methods with concrete implementations.
+
+The implementations of methods __contains__, index and count do not rely on any assumption about the self instances, other than that syntax len(self) and self[j] are supported (by special methods __len__ and __getitem__, respectively).
+
+### Namespaces and Object-Orientation
+A namespace is an abstraction that manages all of the identifiers that are defined in a particular scope, mapping each name to its associated value.
+In python, functions, classes and modules are first-class objects and so the value associated with it as an identifier in a namespace may in fact be a function, class or module.
+
+#### Instance and Class Namespaces
+We could delcare class CreditCard with slots as
+
+```
+class CreditCard:
+    __slots__ = '_customer', '_bank', '_account', '_balance', '_limit'
+```
+  and also for class PredatoryCreditCard as
+```
+class PredatoryCreditCard(CreditCard):
+    __slots__ = '_apr'
+```
+
+#### Name Resolution and Dynamic Dispatch
+Here we discuss the process used in retrieving a name in Python's OO framework. When object.foo is mentioned, the python interpreter begins a name resolution process as follow:
+
+* The instance namespace is searched; if the desired name is found, its associated value is used.
+* Otherwise the class namespace, for the class to which the instance belongs is searched; if name is found its associated value is used.
+* If name was not found in the immediate class namespace, the search continues upward through the inheritance hierarchy, checking the class namespace for each ancestor (commonly by checking the superclass class, then it superclass class and so on). The first time the name is found , it associate value is used.
+* If the name has still not been found an AttributeError is raised.  
+
+Python uses dynamic dispatch to determine at run-time which implementation of a function to call based upon the type of the object upon which it is invoked.
+
+#### Shallow and Deep Copying
+Python provides a module copy which that produces both shallow and deep copies of arbitrary objects.
+For shallow copy we can do `palette = copy(warmtones)` and for deep copy we can do `paletter = copy.deepcopy(warmtones)`.
