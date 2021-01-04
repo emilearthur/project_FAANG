@@ -174,6 +174,18 @@ def sum_squares_(n):
     sum_ = sum([i*i for i in range(n) if i > 0])
     return sum_
 
+
+def find_max(data):
+    """ Return the max elements from a nonempty Python list.
+    This function is classic example of an algo with a running time
+    that grows proportional to n, as the loop executes for each pass
+    """
+    highest = data[0]
+    for val in data:
+        if val > highest:
+            highest = val
+    return highest
+
 # if __name__ == "__main__":
 #    arr = [1, 2, 4, 10, 5, 8]
 #    # call function
