@@ -106,12 +106,12 @@ Three major limitation to use for algo. analysis include:
 
 ** Moving Beyond Experimental Analysis.
 Goal is to develop an approach to analyze the efficiency of algo. that:
-* Allows us to evaluate the relative efficiency of any two alog in a way that is independent of the hardware and software environment.
+* Allows us to evaluate the relative efficiency of any two algo in a way that is independent of the hardware and software environment.
 * Is performed by studying a high-level description of the algo. without need for implementation.
 * Takes into account all possible inputs.
 
 ** Counting Primitive Operations **
-To analyze the running time of an algo without performing experiments, we perform an analysis directly on a high-level description of the algo . We define a set of primitive operations such as the follows:
+To analyze the running time of an algo without performing experiments, we perform an analysis directly on a high-level description of the algo. We define a set of primitives operations such as the follows:
 * Assigning an identifier to an object
 * Determining the object associated with an identifier
 * Performing an arithmetic operation
@@ -119,4 +119,4 @@ To analyze the running time of an algo without performing experiments, we perfor
 * Calling a function (excluding operations executed within the function)
 * Returning from a function
 
-Formally, a primitive operation corresponds to a low-level instruction with an execution time that is constant. Ideally, this might be the type of basic operation that is executed by the hardware, although many of our primitive operation may be translated to a small number of instructions. Instead of trying to determin the specific execution time of each primitive operation, we will simply count how many primitive operations are executed, and use this number `t` as a measure of the running time of the algo.
+Formally, a primitive operation corresponds to a low-level instruction with an execution time that is constant. Ideally, this might be the type of basic operation that is executed by the hardware, although many of our primitive operation may be translated to a small number of instructions. Instead of trying to determine the specific execution time of each primitive operation, we will simply count how many primitive operations are executed, and use this number `t` as a measure of the running time of the algo.
